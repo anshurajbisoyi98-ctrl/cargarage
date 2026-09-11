@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently -k \"npm:server\" \"npm:client\"",
     "build": "vite build",
+    "start": "node backend/server.js",
     "preview": "vite preview --host 127.0.0.1",
     "client": "vite",
     "server": "node --watch backend/server.js",
