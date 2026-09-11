@@ -1,0 +1,17 @@
+import fs from 'node:fs/promises';
+const key=process.env.GEMINI_API_KEY;
+if(!key) throw new Error('Set GEMINI_API_KEY in your shell before running.');
+const reference=process.env.REFERENCE_IMAGE || '/Users/anshu/Downloads/Gemini_Generated_Image_8b5uc58b5uc58b5u (2).png';
+async function generate(name, ref, prompt){
+ const data=await fs.readFile(ref);
+ const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent', {method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{parts:[{inlineData:{mimeType:'image/png',data:data.toString('base64')}},{text:prompt}]}],generationConfig:{responseModalities:['IMAGE'],imageConfig:{aspectRatio:'16:9',imageSize:'2K'}}})});
+ const result=await r.json();
+ if(!r.ok) throw new Error(`Gemini ${r.status}: ${result.error?.message?.replaceAll(key,'[REDACTED]')}`);
+ const part=result.candidates?.[0]?.content?.parts?.find(p=>p.inlineData);
+ if(!part) throw new Error('Gemini returned no image.');
+ const path=`public/assets/${name}.png`;
+ await fs.writeFile(path,Buffer.from(part.inlineData.data,'base64'));console.log(`Saved ${path}`);return path;
+}
+const clean=await generate('mustang-revealed',reference,`Create a photorealistic luxury automotive campaign photograph based on this reference. OUTPUT ONLY THE PHOTOGRAPH, absolutely no text, typography, numbers, website UI, border, rings, hotspots, icons, sliders, watermarks or graphics. Preserve the exact black 1968 Ford Mustang Fastback with slim muted gold rocker stripes, chrome wheels and warm round headlights, nose pointing right, in a monumental dark brutalist concrete studio with suspended angular white tube lights, diagonal warm light on the back wall, subtle atmospheric haze, wet reflective concrete floor. Wide 16:9 cinematic composition: car occupies the lower right area, from x=35% to 85%, y=47% to 82%. Leave the upper-left 45% as dark architectural negative space for live website typography. Show full car and wheels. Natural highly detailed metal reflections and realistic subtle film grain. No cloth on car; a small discarded silver silk cloth can lie behind it on floor. High fidelity professional offline 3D render, extremely crisp, 2K.`);
+await generate('mustang-covered',clean,`Edit this exact photograph, keep camera, car position, architecture, floor and every light absolutely identical and pixel aligned. Cover the entire car with a flowing opaque silver-grey silk car cover, draped over the roof and hood to the ground, outlining the recognizable Mustang silhouette. The car is completely covered, no exposed wheels, no visible grille or body. Gentle believable cloth folds, two warm headlight glows faintly visible through cloth. Remove discarded cloth on floor. Same 16:9 image. No typography or UI. Photorealistic, 2K.`);
+await generate('mustang-detail',clean,`Create a second cinematic photograph in the exact same dark concrete studio of this identical black 1968 Mustang with muted gold rocker stripes. Dramatic low close-up rear three-quarter angle, red glowing triple-segment tail lights, polished chrome bumper and rear wheel, car occupying right 70% of the 16:9 composition. Strong chiaroscuro lighting, smoky charcoal and warm off-white palette with red taillights. Wet floor with restrained reflections. Keep left 30% very dark for live website typography. Ultra detailed professional automotive editorial, no typography, no website elements, no borders or watermark. 2K.`);

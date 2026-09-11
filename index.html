@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#131412"/>
+  <meta name="description" content="An immersive tribute to the 1968 Mustang Fastback. Rediscover an icon through a cinematic, interactive reveal."/>
+  <title>Mustang '68 — An icon, uncovered.</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="preload" as="image" href="/assets/mustang-revealed.webp"/>
+  <link rel="stylesheet" href="/src/style.css"/>
+</head>
+<body>
+<main class="experience" id="experience">
+  <div class="scene" aria-hidden="true">
+    <img id="revealed" class="scene-image" src="/assets/mustang-revealed.webp" alt="" fetchpriority="high"/>
+    <img id="covered" class="scene-image" src="/assets/mustang-covered.webp" alt=""/>
+    <img id="billow" class="scene-image" src="/assets/mustang-billow.webp" alt=""/>
+    <img id="detail" class="scene-image" src="/assets/mustang-detail.webp" alt=""/>
+  </div>
+  <div class="scene-shade" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="header">
+    <a class="wordmark" href="#" aria-label="Mustang experience home">Ford<span class="wordmark-line"></span></a>
+    <p class="brand-note">The spirit of the original.<br/>The feeling of forever.</p>
+    <nav class="header-nav" aria-label="Main navigation">
+      <button class="text-button" id="garage-button">My garage <span>↗</span></button>
+      <button class="text-button" id="notif-header-button">Notifications <span class="notif-badge" id="header-notif-badge">0</span></button>
+      <button class="text-button" data-view="story">The story <span>↗</span></button>
+      <button class="text-button" data-view="details">Explore the icon <span>↗</span></button>
+    </nav>
+    <button class="menu-button" aria-label="Open menu" aria-expanded="false" aria-controls="menu-dialog"><span></span><span></span></button>
+  </header>
+  <section class="hero-copy" aria-label="1968 Mustang Fastback">
+    <p class="eyebrow"><span class="tiny-cross">+</span> THE HERITAGE COLLECTION <span class="edition">VOL. 01 / 1968</span></p>
+    <div class="headline-wrap">
+      <h1><span class="headline-small">MUSTANG</span><span class="headline-large">FASTBACK<span class="title-dot">®</span></span></h1>
+    </div>
+    <div class="hero-caption"><span class="short-line"></span><p>Some things never<br/>go out of <em>feeling.</em></p></div>
+  </section>
+  <span class="year-mark" aria-hidden="true">68</span>
+  <div class="view-label"><span class="live-dot"></span><span id="view-label">STUDIO 01 — THE ORIGINAL</span></div>
+  <div class="hotspots" id="hotspots">
+    <button class="hotspot spot-body" data-feature="silhouette" aria-label="Explore the fastback silhouette"><span>+</span><span class="hotspot-label">THE SILHOUETTE</span></button>
+    <button class="hotspot spot-wheel" data-feature="detail" aria-label="Explore the chrome details"><span>+</span><span class="hotspot-label">BUILT TO TURN HEADS</span></button>
+  </div>
+  <section class="bottom-story">
+    <p class="section-index" id="section-index">01 <span>/ 03</span></p>
+    <div class="bottom-copy"><h2 id="bottom-title">Looks fast. Standing still.</h2><p id="bottom-description">An unmistakable silhouette. An untamed spirit.<br/>An American original, still moving us.</p><button id="read-story" class="underlined" data-view="story">Discover its story <span>↗</span></button></div>
+    <div class="reveal-control">
+      <div class="reveal-label"><label for="reveal-range">UNCOVER THE ICON</label><output id="reveal-value" for="reveal-range">100%</output></div>
+      <div class="range-wrap"><span class="range-line"></span><input id="reveal-range" type="range" min="0" max="100" value="100" aria-label="Car reveal progress"/><span class="range-arrow" aria-hidden="true">↔</span></div>
+      <div class="range-footer"><button id="replay" aria-label="Replay car reveal"><span>↺</span> REPLAY THE REVEAL</button><span>DRAG TO EXPLORE</span></div>
+    </div>
+  </section>
+  <footer class="footer">
+    <button class="share-button" id="share">SHARE <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor"><circle cx="5" cy="10" r="2.5"/><circle cx="15" cy="4" r="2.5"/><circle cx="15" cy="16" r="2.5"/><path d="m7 9 6-4M7 11l6 4"/></svg></button>
+    <nav class="chapter-nav" aria-label="Scene navigation"><button class="chapter active" data-chapter="0" aria-label="Scene 1: The original" aria-current="true"><span>01</span><i></i></button><button class="chapter" data-chapter="1" aria-label="Scene 2: The reveal"><span>02</span><i></i></button><button class="chapter" data-chapter="2" aria-label="Scene 3: The details"><span>03</span><i></i></button></nav>
+    <p class="footer-note">A LEGACY IN MOTION <span>© 1968 — FOREVER</span></p>
+  </footer>
+  <div class="loading" id="loading" role="status" aria-live="polite">
+    <div class="loading-corner loading-corner-tl"></div>
+    <div class="loading-corner loading-corner-tr"></div>
+    <div class="loading-corner loading-corner-bl"></div>
+    <div class="loading-corner loading-corner-br"></div>
+    <div class="loading-inner">
+      <p class="loading-eyebrow">THE HERITAGE COLLECTION <span>VOL. 01 / 1968</span></p>
+      <div class="loading-title-wrap">
+        <span class="loading-word" id="loading-word">An icon,</span>
+        <span class="loading-word-accent" id="loading-word-accent">uncovered.</span>
+      </div>
+      <div class="loading-progress">
+        <div class="loading-track-outer">
+          <div class="loading-track"><i id="loading-bar"></i></div>
+        </div>
+        <span class="loading-percentage" id="loading-percentage">0%</span>
+      </div>
+      <span class="loading-note" id="loading-note">ENTERING THE STUDIO</span>
+    </div>
+  </div>
+  <div class="intro-veil" id="intro-veil" aria-hidden="true"></div>
+</main>
+<dialog id="story-dialog" class="panel-dialog" aria-labelledby="story-heading"><button class="close-dialog" aria-label="Close story">✕</button><p class="eyebrow">THE HERITAGE COLLECTION / 1968</p><h2 id="story-heading">Never ordinary.<br/><em>Always Mustang.</em></h2><p class="panel-intro">A long hood. A short rear deck. A roofline that refuses to stand still.</p><p>The 1968 Fastback captures an idea that never gets old: a car should make you feel something. Its sweeping silhouette and purposeful stance have become part of the visual language of American motoring.</p><div class="story-facts"><div><span>01</span><h3>The silhouette</h3><p>A continuous roofline, flowing into the rear deck. Instantly recognizable from every angle.</p></div><div><span>02</span><h3>The details</h3><p>Round headlights, bright chrome, and signature triple-segment rear lamps. Small details. Lasting character.</p></div></div><button class="solid-button" id="story-explore">Explore the details <span>↗</span></button><small class="concept-note">An independent design tribute. AI-generated visual interpretations; not affiliated with Ford Motor Company.</small></dialog>
+<dialog id="menu-dialog" class="menu-dialog" aria-labelledby="menu-heading"><button class="close-dialog" aria-label="Close menu">✕</button><p class="eyebrow" id="menu-heading">THE MUSTANG EXPERIENCE</p><button data-menu-chapter="0"><span>01</span> The original <i>↗</i></button><button data-menu-chapter="1"><span>02</span> The reveal <i>↗</i></button><button data-menu-chapter="2"><span>03</span> The details <i>↗</i></button><button id="menu-garage-button"><span>04</span> My garage <i>↗</i></button><button id="menu-notif-button"><span>05</span> Notifications <span class="notif-badge" id="menu-notif-badge">0</span><i>↗</i></button><p class="menu-bottom">1968. A good year to be unforgettable.</p></dialog>
+<div class="toast" role="status" id="toast"></div>
+<script type="module" src="/src/main.js"></script>
+</body></html>

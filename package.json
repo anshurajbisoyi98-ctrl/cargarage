@@ -1,0 +1,27 @@
+{
+  "name": "mustang-1968-experience",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k \"npm:server\" \"npm:client\"",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "client": "vite",
+    "server": "node --watch backend/server.js",
+    "test": "node --test tests/*.test.js",
+    "create-admin": "node scripts/create-admin.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "vite": "^7.1.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.10.0"
+  }
+}
