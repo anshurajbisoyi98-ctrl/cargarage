@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1968 Ford Mustang Fastback — Master Presentation Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d0b;
+      --surface: #131612;
+      --card: #181b16;
+      --border: #282c24;
+      --gold: #c6cdb8;
+      --gold-dim: #7a826e;
+      --accent: #8a9b7d;
+      --text: #e2e4dc;
+      --muted: #8d9284;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-code: 'Fira Code', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+    /* Top Progress Bar */
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      width: 100%;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--accent), var(--gold));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    /* Header Bar */
+    header {
+      height: 58px;
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(11, 13, 11, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .brand span {
+      color: var(--gold-dim);
+    }
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .slide-counter {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .slide-counter span {
+      color: var(--gold-dim);
+      font-size: 16px;
+    }
+    button.control-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    button.control-btn:hover {
+      background: var(--border);
+      color: #fff;
+      border-color: var(--gold-dim);
+    }
+    button.control-btn.active {
+      background: var(--gold);
+      color: #0b0d0b;
+      font-weight: 600;
+    }
+    /* Main Slide Stage */
+    main {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+    .slide {
+      position: absolute;
+      inset: 40px;
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(12px) scale(0.99);
+      transition: opacity 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .slide-header {
+      margin-bottom: 24px;
+    }
+    .slide-category {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .slide-subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 8px;
+      font-weight: 300;
+    }
+    .slide-content {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 12px;
+    }
+    /* Content Components */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      height: 100%;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card.highlight {
+      border-color: rgba(198, 205, 184, 0.4);
+      background: linear-gradient(145deg, #1b1e19, #131612);
+    }
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card p, .card li {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .card strong {
+      color: var(--text);
+    }
+    ul.check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    ul.check-list li {
+      position: relative;
+      padding-left: 22px;
+    }
+    ul.check-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+    /* Pipeline Stepper */
+    .stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .step-node {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 12px;
+      text-align: center;
+      position: relative;
+    }
+    .step-node.active-step {
+      border-color: var(--gold);
+      background: rgba(198, 205, 184, 0.08);
+    }
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--gold);
+    }
+    .step-label {
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .step-desc {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .step-arrow {
+      color: var(--gold-dim);
+      font-size: 18px;
+    }
+    /* Code Snippet */
+    pre.code-box {
+      background: #080a08;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: var(--font-code);
+      font-size: 12px;
+      line-height: 1.5;
+      color: #b8c4ad;
+      overflow-x: auto;
+    }
+    pre.code-box .kw { color: #e5b986; }
+    pre.code-box .fn { color: #8ec3de; }
+    pre.code-box .str { color: #9bc58d; }
+    pre.code-box .cm { color: #5f6655; font-style: italic; }
+    /* Speaker Notes Overlay */
+    .notes-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #090b09;
+      border-top: 1px solid #3c4434;
+      padding: 20px 32px;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      z-index: 50;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+      max-height: 35vh;
+      overflow-y: auto;
+    }
+    .notes-drawer.open {
+      transform: translateY(0);
+    }
+    .notes-title {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notes-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #d1d6c7;
+      font-style: italic;
+    }
+    /* Footer Navigation */
+    footer {
+      height: 60px;
+      border-top: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+    }
+    .nav-hints {
+      font-size: 11px;
+      color: var(--gold-dim);
+      display: flex;
+      gap: 18px;
+    }
+    .nav-hints kbd {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-code);
+      color: var(--gold);
+      font-size: 10px;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      1968 Mustang Fastback <span>/</span> Architecture Presentation
+    </div>
+    <div class="deck-controls">
+      <button class="control-btn" id="notes-toggle-btn" title="Toggle Presenter Script (Key: N)">
+        🎙️ Speaker Notes (N)
+      </button>
+      <button class="control-btn" id="fs-btn" title="Toggle Fullscreen (Key: F)">
+        ⛶ Fullscreen (F)
+      </button>
+      <div class="slide-counter" id="slide-counter">
+        01 <span>/ 16</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Slide Canvas -->
+  <main id="slide-stage">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" data-notes="Good morning mentors and evaluators. Today, I am proud to present the 1968 Ford Mustang Fastback Platform. This project bridges two worlds: a AAA gaming-grade cinematic web presentation engine and a hardened, enterprise automotive maintenance concierge backed by MongoDB ACID transactions and strict role-based access control.">
+      <div class="slide-header">
+        <div class="slide-category">Project Overview & Defense</div>
+        <h1 class="slide-title">1968 MUSTANG FASTBACK</h1>
+        <p class="slide-subtitle">Cinematic Heritage Presentation & Master Automotive Service Concierge</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card highlight">
+            <h3>🏎️ The Engineering Vision</h3>
+            <p>A unified digital platform connecting classic automotive collectors with certified restoration workshop facilities.</p>
+            <ul class="check-list">
+              <li><strong>Interactive Visual Engine</strong>: Single-entry 4-phase loading timer with physics-eased grand reveal settling permanently on Chapter 3.</li>
+              <li><strong>Enterprise Service Concierge</strong>: Complete fleet management, appointments, 5-stage Kanban stepper, and certified legal invoicing.</li>
+              <li><strong>Defense-in-Depth Security</strong>: 100% role isolation between collector clients and workshop administrators.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🛠️ Core Technology Stack</h3>
+            <ul class="check-list">
+              <li><strong>Frontend</strong>: Vite 7, Vanilla Modern ES6+, Custom CSS3 Variables Canvas, WebGL shader simulation.</li>
+              <li><strong>Backend</strong>: Node.js, Express 5 REST API, Cookie-Parser, In-Memory Rate Limiting.</li>
+              <li><strong>Database</strong>: MongoDB Atlas, Mongoose 9 ODM, Multi-Document ACID Transactions.</li>
+              <li><strong>Security</strong>: Signed JWT inside <code>httpOnly</code>, <code>SameSite: Strict</code> cookies, CSRF Origin filters.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" data-notes="Classic car maintenance suffers from fragmented paper receipts and lack of provenance. Our platform unifies a stunning cinematic marketing showcase with a cryptographically verified logbook and multi-tenant concierge.">
+      <div class="slide-header">
+        <div class="slide-category">Problem & Solution</div>
+        <h1 class="slide-title">THE AUTOMOTIVE CHALLENGE</h1>
+        <p class="slide-subtitle">Why classic vehicle owners need an integrated digital platform</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h3>🔴 Friction Points in Classic Ownership</h3>
+            <ul class="check-list">
+              <li><strong>Unverified Provenance</strong>: Service records scattered across loose paper receipts; high vulnerability to odometer rollback and falsified logs.</li>
+              <li><strong>Disjointed Software</strong>: Dealer management systems are clunky and dated, while marketing websites are completely static brochures.</li>
+              <li><strong>Zero Proactive Telemetry</strong>: Owners miss critical maintenance milestones due to lack of time and mileage baseline calculations.</li>
+              <li><strong>No Role Isolation</strong>: Lack of clean boundary between customer self-service and master technician dispatch bays.</li>
+            </ul>
+          </div>
+          <div class="card highlight">
+            <h3>🟢 The Master Concierge Solution</h3>
+            <ul class="check-list">
+              <li><strong>Immutable Service Logbook</strong>: Invoices (<code>INV-YYYY-XXXX</code>) snapshot parts and labor costs atomically in database transactions.</li>
+              <li><strong>Physics-Eased Cinematic Showcase</strong>: WebGL layer blending that presents the vehicle in slow-motion and settles on fine details.</li>
+              <li><strong>Smart Maintenance Engine</strong>: Auto-computes service due dates (+6 months) and mileage thresholds (+5,000 km) with snooze support.</li>
+              <li><strong>Strict Dual-Persona Architecture</strong>: Customers manage garage fleet; administrators dispatch technicians across Kanban stages.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" data-notes="Here is our system architecture. The client communicates with the Express REST API using relative paths. All state-mutating requests pass through an origin whitelist guard and rate limiter before hitting authentication and our controllers.">
+      <div class="slide-header">
+        <div class="slide-category">System Architecture</div>
+        <h1 class="slide-title">TOPOLOGY & DATA FLOW</h1>
+        <p class="slide-subtitle">High-level interaction between Client, Security Gateway, Controllers & MongoDB Atlas</p>
+      </div>
+      <div class="slide-content">
+        <div class="card" style="margin-bottom: 20px;">
+          <pre class="code-box">
+┌─────────────────────────────── CLIENT (Vite Port 5175 / Render Cloud) ───────────────────────────────┐
+│  • main.js (Cinematic Camera, Timer & Reveal)   • service.js (SPA Modal, 6 Customer Tabs, 9 Admin Bay)  │
+└──────────────────────────────────────────────┬────────────────────────────────────────────────────────┘
+                                               │ JSON REST API (httpOnly JWT Session Cookie)
+                                               ▼
+┌───────────────────────────── BACKEND PIPELINE (Express 5 Port 5001) ──────────────────────────────────┐
+│  1. Origin Whitelist Filter (APP_ORIGIN)        │ 2. In-Memory Sliding-Window Rate Limiter (30req/15m)│
+│  3. Cookie-Parser & JWT Auth Middleware         │ 4. Role Authorization (authorizeAdmin ➔ 403 Guard)  │
+│  5. Ownership Validator (ownedVehicle)          │ 6. Centralized Error Masker (11000, Cast, Valid.)   │
+└──────────────────────────────────────────────┬────────────────────────────────────────────────────────┘
+                                               │ ACID Transactions (mongoose.connection.transaction)
+                                               ▼
+┌───────────────────────────── PERSISTENCE TIER (MongoDB Atlas Cluster) ────────────────────────────────┐
+│  Users • Vehicles • ServiceRequests • ServiceRecords • Reminders • ProblemReports • Centers • Notifs  │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────┘
+          </pre>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <h3>🔒 Security Gateway</h3>
+            <p>Every request verifies origin whitelist and requires <code>application/json</code> to prevent CSRF attacks.</p>
+          </div>
+          <div class="card">
+            <h3>⚡ Atomic Operations</h3>
+            <p>Critical mutations (bookings, invoices, cascade deletions) execute inside MongoDB transactions.</p>
+          </div>
+          <div class="card">
+            <h3>📬 Event Notifications</h3>
+            <p>Status changes, stage advances, and high-severity reports trigger automated in-app notifications.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" data-notes="The graphics engine in main.js handles the loading timer, grand reveal, and permanent settle on Chapter 3. The timer runs only once on initial page load, and the reveal automatically sweeps over 4.5 seconds.">
+      <div class="slide-header">
+        <div class="slide-category">Visual Graphics Engine</div>
+        <h1 class="slide-title">CINEMATIC TIMELINE & REVEAL</h1>
+        <p class="slide-subtitle">Precision choreographed visual storytelling in src/main.js</p>
+      </div>
+      <div class="slide-content">
+        <div class="stepper">
+          <div class="step-node active-step">
+            <div class="step-num">PHASE 1</div>
+            <div class="step-label">0% → 30%</div>
+            <div class="step-desc">Fonts & initial paint settle</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">PHASE 2</div>
+            <div class="step-label">30% → 70%</div>
+            <div class="step-desc">WebP decode via img.decode()</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">PHASE 3</div>
+            <div class="step-label">70% → 95%</div>
+            <div class="step-desc">Composite layer prep</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">PHASE 4</div>
+            <div class="step-label">95% → 100%</div>
+            <div class="step-desc">Dramatic pause & curtain drop</div>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top: 24px;">
+          <div class="card">
+            <h3>⏱️ Single-Entry Timer</h3>
+            <p>Executes once on initial entry or reload. <code>.loading.done</code> fades out overlay. Navigation inside the app never re-triggers the timer.</p>
+          </div>
+          <div class="card highlight">
+            <h3>🏎️ Automatic Grand Reveal</h3>
+            <p>Car starts fully covered (<code>progress = 0</code>). <code>animateProgress(1, 4500)</code> sweeps open the satin sheet over 4.5 seconds in slow motion.</p>
+          </div>
+          <div class="card">
+            <h3>🖼️ Permanent 3rd Scene Settle</h3>
+            <p>Transitions automatically to Chapter 2 (Studio 03 — The Details). Stays there permanently until page reload or clicking <code>↺ REPLAY</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" data-notes="Multi-tenant isolation ensures customers cannot access admin controls. The role toggle is physically removed from customer view, and backend middleware blocks unauthorized API requests with 403 Forbidden.">
+      <div class="slide-header">
+        <div class="slide-category">Security & RBAC</div>
+        <h1 class="slide-title">STRICT ROLE ISOLATION</h1>
+        <p class="slide-subtitle">Preventing unauthorized customer-to-admin privilege escalation</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h3>👤 Customer Account (isAdmin: false)</h3>
+            <ul class="check-list">
+              <li><strong>No Role Switcher</strong>: The <code>[ Customer ] | [ Admin ]</code> toggle is completely hidden; displays static <code>👤 Customer</code> badge.</li>
+              <li><strong>6 Client Tabs Only</strong>: My Garage, Book Service, Service History, Reminders, Report Problem, Profile.</li>
+              <li><strong>Public Registration Guard</strong>: Public signup endpoint explicitly hardcodes <code>isAdmin: false</code>, ignoring client payload.</li>
+              <li><strong>Zero Cross-Tenant Access</strong>: Blocked from viewing other owners' vehicles or administrative endpoints.</li>
+            </ul>
+          </div>
+          <div class="card highlight">
+            <h3>🛡️ Administrator Account (isAdmin: true)</h3>
+            <ul class="check-list">
+              <li><strong>Full Control Bay</strong>: Overview telemetry, Requests queue, Active Kanban stepper, Certified Records, Analytics, Centers, Users, Heritage, Problems.</li>
+              <li><strong>Role Switcher Enabled</strong>: Only registered administrators see the toggle to inspect customer perspective.</li>
+              <li><strong>Cryptographic Verification</strong>: Server verifies <code>req.user.isAdmin</code> via JWT payload signature on every sensitive route.</li>
+              <li><strong>CLI Provisioning Only</strong>: Admin accounts can only be provisioned through our offline server CLI script (<code>create-admin.mjs</code>).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" data-notes="The Garage module demonstrates thorough CRUD operations with strict automotive business rules, such as preventing odometer rollback and protecting vehicles with service history from accidental deletion.">
+      <div class="slide-header">
+        <div class="slide-category">Customer Concierge</div>
+        <h1 class="slide-title">GARAGE FLEET MANAGEMENT</h1>
+        <p class="slide-subtitle">Vehicle CRUD, Odometer Integrity & Cascade Safety</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <div class="card">
+            <h3>POST /vehicles</h3>
+            <p><strong>CREATE</strong>: Registers vehicle. Enforces unique uppercase registration and past purchase date.</p>
+          </div>
+          <div class="card">
+            <h3>GET /vehicles</h3>
+            <p><strong>READ</strong>: Retrieves logged-in owner's fleet, sorted by newest creation date.</p>
+          </div>
+          <div class="card">
+            <h3>PUT /vehicles/:id</h3>
+            <p><strong>UPDATE</strong>: Modifies vehicle specs. Enforces that mileage cannot roll backwards.</p>
+          </div>
+          <div class="card">
+            <h3>DELETE /vehicles/:id</h3>
+            <p><strong>DELETE</strong>: Blocks deletion if service history exists unless <code>?cascade=true</code> is set.</p>
+          </div>
+        </div>
+        <div class="card highlight">
+          <h3>🛡️ Essential Automotive Business Logic</h3>
+          <pre class="code-box">
+<span class="cm">// 1. Odometer Rollback Defense</span>
+<span class="kw">if</span> (next.mileage < v.mileage) <span class="fn">fail</span>(400, <span class="str">'Mileage cannot decrease.'</span>);
+
+<span class="cm">// 2. Ownership Verification Guard</span>
+<span class="kw">if</span> (!user.isAdmin && String(vehicle.owner) !== String(user._id)) {
+  <span class="fn">fail</span>(403, <span class="str">'This vehicle belongs to another owner.'</span>);
+}
+
+<span class="cm">// 3. Cascade Protection on Deletion</span>
+<span class="kw">if</span> (!cascade && <span class="kw">await</span> ServiceRequest.exists({ vehicle: id })) {
+  <span class="fn">fail</span>(409, <span class="str">'Vehicles with bookings or service history cannot be deleted.'</span>);
+}
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" data-notes="In Book Service, customers select authorized centers and future dates. Smart Reminders compute baselines and allow +3d, +7d, +14d snoozing. High severity problems trigger automated admin escalation.">
+      <div class="slide-header">
+        <div class="slide-category">Customer Concierge</div>
+        <h1 class="slide-title">BOOKINGS, REMINDERS & DEFECTS</h1>
+        <p class="slide-subtitle">Proactive maintenance scheduling and emergency problem reporting</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card">
+            <h3>📅 Book Service</h3>
+            <p>Clients schedule appointments by selecting their vehicle, authorized service center, date, time slot, and describing symptoms.</p>
+            <ul class="check-list">
+              <li>Enforces future dates (<code>preferredDate >= today</code>).</li>
+              <li>Atomically locks vehicle and sets initial stage to <code>booked</code>.</li>
+              <li>Dispatches booking confirmation alert.</li>
+            </ul>
+          </div>
+          <div class="card highlight">
+            <h3>🔔 Smart Reminders</h3>
+            <p>Computes mathematical service due status based on mileage and elapsed time.</p>
+            <ul class="check-list">
+              <li><strong>Baseline</strong>: Last service date or vehicle purchase date.</li>
+              <li><strong>Threshold</strong>: Baseline + 6 months and +5,000 km.</li>
+              <li><strong>Interactive Snooze</strong>: Recalculates due date by <strong>+3 Days</strong>, <strong>+7 Days</strong>, or <strong>+14 Days</strong>.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>⚠️ Diagnostic Defects</h3>
+            <p>Owners report mechanical or electrical defects with severity ranking.</p>
+            <ul class="check-list">
+              <li><strong>Severity</strong>: Low, Medium, High, Critical.</li>
+              <li><strong>Auto-Escalation</strong>: High/Critical severity issues broadcast urgent alerts to all administrator inboxes immediately.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" data-notes="The Administrator Overview dashboard calculates fleet counts, pending queues, active bay workloads, and gross revenue in rupees with visual analytics charts.">
+      <div class="slide-header">
+        <div class="slide-category">Administrator Control Bay</div>
+        <h1 class="slide-title">EXECUTIVE KPI TELEMETRY</h1>
+        <p class="slide-subtitle">Live facility diagnostics and operational analytics</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4" style="margin-bottom: 24px;">
+          <div class="card highlight">
+            <h3 style="font-size: 18px;">🏎️ FLEET COUNT</h3>
+            <p style="font-family: var(--font-display); font-size: 38px; color: var(--gold); line-height: 1;">42</p>
+            <p style="font-size: 11px;">Registered classic vehicles</p>
+          </div>
+          <div class="card highlight">
+            <h3 style="font-size: 18px;">📥 PENDING</h3>
+            <p style="font-family: var(--font-display); font-size: 38px; color: #e5b986; line-height: 1;">03</p>
+            <p style="font-size: 11px;">Awaiting technician assignment</p>
+          </div>
+          <div class="card highlight">
+            <h3 style="font-size: 18px;">⚙️ ACTIVE BAYS</h3>
+            <p style="font-family: var(--font-display); font-size: 38px; color: var(--accent); line-height: 1;">08</p>
+            <p style="font-size: 11px;">Vehicles in service pipeline</p>
+          </div>
+          <div class="card highlight">
+            <h3 style="font-size: 18px;">💰 GROSS REVENUE</h3>
+            <p style="font-family: var(--font-display); font-size: 38px; color: var(--gold); line-height: 1;">₹4.82L</p>
+            <p style="font-size: 11px;">Invoiced parts & labor</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>📈 Monthly Service Revenue</h3>
+            <p>Visual bar comparison of monthly service intake: APR (₹45k), MAY (₹62k), JUN (₹78k), JUL (₹95k), AUG (₹88k), SEP (₹114k).</p>
+          </div>
+          <div class="card">
+            <h3>📊 Category Distribution Breakdown</h3>
+            <p>Engine & Dyno Tuning (38%) • Brake & Hydraulics (26%) • Transmission & Clutch (16%) • Chassis & Suspension (12%) • Electrical (8%).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" data-notes="The 5-Stage Kanban stepper gives complete visibility into workshop repair progression. Each advancement updates the database and alerts the customer in real time.">
+      <div class="slide-header">
+        <div class="slide-category">Workflow Automation</div>
+        <h1 class="slide-title">5-STAGE KANBAN STEPPER</h1>
+        <p class="slide-subtitle">End-to-end service job progression with automated customer notifications</p>
+      </div>
+      <div class="slide-content">
+        <div class="stepper">
+          <div class="step-node active-step">
+            <div class="step-num">01</div>
+            <div class="step-label">INTAKE</div>
+            <div class="step-desc">Car received & logged at bay</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">02</div>
+            <div class="step-label">INSPECTION</div>
+            <div class="step-desc">Teardown & diagnostic run</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">03</div>
+            <div class="step-label">IN PROGRESS</div>
+            <div class="step-desc">Parts install & mechanical work</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">04</div>
+            <div class="step-label">READY</div>
+            <div class="step-desc">QC inspection & detailing</div>
+          </div>
+          <div class="step-arrow">➔</div>
+          <div class="step-node active-step">
+            <div class="step-num">05</div>
+            <div class="step-label">COMPLETED</div>
+            <div class="step-desc">Invoiced & collected</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 24px;">
+          <div class="card">
+            <h3>Technician Assignment & Intake</h3>
+            <p>When staff reviews a pending booking, clicking <strong>Accept</strong> prompts for the master technician name (e.g., <em>"Dave Miller"</em>). Atomically transitions status to <code>accepted</code>.</p>
+          </div>
+          <div class="card highlight">
+            <h3>Live Customer Push Updates</h3>
+            <p>Every click on <strong>Advance Stage (⏩)</strong> sends an in-app notification to the vehicle owner: <em>"Your Mustang service has progressed to: Work in Progress on Bay 4."</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" data-notes="Invoicing is protected by MongoDB ACID multi-document transactions. It locks the booking, validates and advances vehicle mileage, snapshots parts costs, generates the invoice number, and notifies the customer.">
+      <div class="slide-header">
+        <div class="slide-category">Financial Operations</div>
+        <h1 class="slide-title">CERTIFIED INVOICING & TRANSACTIONS</h1>
+        <p class="slide-subtitle">Multi-document ACID guarantees for financial and odometer integrity</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card highlight">
+            <h3>🔒 Multi-Document ACID Transaction</h3>
+            <pre class="code-box">
+<span class="kw">await</span> mongoose.connection.<span class="fn">transaction</span>(<span class="kw">async</span> session => {
+  <span class="cm">// 1. Lock & complete service request</span>
+  <span class="kw">const</span> request = <span class="kw">await</span> ServiceRequest.<span class="fn">findOneAndUpdate</span>(
+    { _id: id, status: { $in: [<span class="str">'accepted'</span>, <span class="str">'in_progress'</span>] } },
+    { $set: { status: <span class="str">'completed'</span>, currentStage: <span class="str">'completed'</span> } },
+    { session, new: <span class="kw">true</span> }
+  );
+
+  <span class="cm">// 2. Validate & advance vehicle mileage</span>
+  <span class="kw">const</span> vehicle = <span class="kw">await</span> Vehicle.<span class="fn">findById</span>(request.vehicle).<span class="fn">session</span>(session);
+  <span class="kw">if</span> (mileage < vehicle.mileage) <span class="fn">fail</span>(400, <span class="str">'Mileage cannot decrease.'</span>);
+  vehicle.mileage = mileage;
+  <span class="kw">await</span> vehicle.<span class="fn">save</span>({ session });
+
+  <span class="cm">// 3. Snapshot parts & labor into invoice</span>
+  record = (<span class="kw">await</span> ServiceRecord.<span class="fn">create</span>([{ ... }], { session }))[0];
+});
+            </pre>
+          </div>
+          <div class="card">
+            <h3>📋 Certified Logbook Features</h3>
+            <ul class="check-list">
+              <li><strong>Unique Invoice ID</strong>: Formatted as <code>INV-YYYY-XXXX</code> (e.g. <code>INV-2026-4819</code>).</li>
+              <li><strong>Historical Parts Snapshots</strong>: Stores multi-line items (<code>name</code>, <code>cost</code>); future price alterations never alter past legal invoices.</li>
+              <li><strong>Luxury Printable Receipts</strong>: Dedicated modal supporting browser <code>window.print()</code> for hard-copy records.</li>
+              <li><strong>Mileage Advancement</strong>: Synchronizes odometer automatically upon invoice generation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide" data-notes="The remaining admin modules complete the picture: Workshop Centers with capacity management, User Directory using aggregation pipelines, Historic Heritage collection with 1-click import, and problem resolution.">
+      <div class="slide-header">
+        <div class="slide-category">Enterprise Modules</div>
+        <h1 class="slide-title">CENTERS, USERS & HERITAGE</h1>
+        <p class="slide-subtitle">Facility capacity, fleet aggregations & historic Fastback archives</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card">
+            <h3>🏢 Authorized Service Centers</h3>
+            <p>Manage workshop facilities across the network. Set bay capacity limits and toggle active status.</p>
+            <p><strong>Self-Healing Seed</strong>: Automatically seeds 3 flagship facilities if database collection is empty.</p>
+          </div>
+          <div class="card">
+            <h3>👥 User Registry & Aggregation</h3>
+            <p>Collector registry with contact info and member join dates.</p>
+            <p><strong>High-Performance Aggregation</strong>: Uses MongoDB <code>$group</code> to calculate fleet vehicle counts per user in real time with zero N+1 overhead.</p>
+          </div>
+          <div class="card">
+            <h3>🏛️ Historic Heritage Archive</h3>
+            <p>Curated showcase of famous 1968 Fastback editions (Bullitt GT 390, Shelby GT500, California Special, Raven Stealth).</p>
+            <p><strong>1-Click Actions</strong>: Pre-fills service booking or registers model directly into the active garage.</p>
+          </div>
+          <div class="card">
+            <h3>⚠️ Diagnostic Problem Queue</h3>
+            <p>Triage queue for customer-reported defects. Staff inspects symptoms, clicks <strong>Resolve</strong>, stamps resolution date, and notifies the client.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide" data-notes="Security hardening includes httpOnly cookies to prevent XSS token theft, Origin header checking to stop CSRF, in-memory IP rate limiting, and centralized error masking.">
+      <div class="slide-header">
+        <div class="slide-category">Security Hardening</div>
+        <h1 class="slide-title">ENTERPRISE RESILIENCE</h1>
+        <p class="slide-subtitle">Neutralizing XSS, CSRF, brute-force attacks and database leakage</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card highlight">
+            <h3>🛡️ Defense Layers</h3>
+            <ul class="check-list">
+              <li><strong>XSS Immunity</strong>: JWT is stored in an <code>httpOnly</code>, <code>SameSite: Strict</code> cookie. Browser JavaScript cannot access it via <code>document.cookie</code>.</li>
+              <li><strong>Anti-CSRF Origin Guard</strong>: Validates incoming request <code>Origin</code> against whitelist (<code>APP_ORIGIN</code>) and enforces <code>application/json</code>.</li>
+              <li><strong>Sliding-Window Rate Limiter</strong>: In-memory tracker restricts login and registration attempts to <strong>30 requests per 15 minutes</strong>.</li>
+              <li><strong>Centralized Error Masker</strong>: Maps low-level database errors (code 11000, CastErrors) to clean status codes without leaking stack traces.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🔒 Security Code Implementation</h3>
+            <pre class="code-box">
+<span class="cm">// Cookie Configuration in userController.js</span>
+res.<span class="fn">cookie</span>(<span class="str">'session'</span>, token, {
+  httpOnly: <span class="kw">true</span>,
+  sameSite: <span class="str">'strict'</span>,
+  secure: process.env.NODE_ENV === <span class="str">'production'</span>,
+  maxAge: 7 * 24 * 60 * 60 * 1000 <span class="cm">// 7 Days</span>
+});
+
+<span class="cm">// Origin Guard in app.js</span>
+<span class="kw">if</span> (origin && !allowed.<span class="fn">includes</span>(origin) && !isSameHost) {
+  <span class="kw">return</span> res.<span class="fn">status</span>(403).<span class="fn">json</span>({ message: <span class="str">'Origin not allowed.'</span> });
+}
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide" data-notes="Our data model includes eight interconnected Mongoose schemas with ObjectId references, unique compound indexes, and sparse keys to ensure data integrity.">
+      <div class="slide-header">
+        <div class="slide-category">Data Modeling</div>
+        <h1 class="slide-title">DATABASE SCHEMAS & RELATIONS</h1>
+        <p class="slide-subtitle">8 interconnected collections modeled with Mongoose ODM</p>
+      </div>
+      <div class="slide-content">
+        <div class="card" style="margin-bottom: 20px;">
+          <pre class="code-box">
+  User (1) ───────◄ Vehicle (N) ──────────◄ ServiceRequest (N) ───────◄ ServiceRecord (1)
+    │                  │                         │                           │
+    ├────◄ Reminder    ├────◄ ProblemReport      ├────► ServiceCenter        └─► [Parts Snapshot]
+    │                  │                         │
+    └────◄ Notification                          └─► Status & Stage Enums
+          </pre>
+        </div>
+        <div class="grid-4">
+          <div class="card">
+            <h3>User</h3>
+            <p>username, email (unique), password (select: false), isAdmin, phone.</p>
+          </div>
+          <div class="card">
+            <h3>Vehicle</h3>
+            <p>owner (ref), registrationNumber (unique), mileage, purchaseDate, specs.</p>
+          </div>
+          <div class="card">
+            <h3>ServiceRequest</h3>
+            <p>vehicle (ref), owner (ref), center (ref), status, currentStage, technician.</p>
+          </div>
+          <div class="card">
+            <h3>ServiceRecord</h3>
+            <p>serviceRequest (unique ref), invoiceNumber, partsReplaced, totalCost.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide" data-notes="Now we begin our live demonstration: Act 1 shows the reveal settling on Chapter 3. Act 2 shows customer garage management. Act 3 demonstrates administrator booking acceptance, Kanban staging, and invoice creation.">
+      <div class="slide-header">
+        <div class="slide-category">Demonstration</div>
+        <h1 class="slide-title">LIVE PRESENTATION SCRIPT</h1>
+        <p class="slide-subtitle">4-Act narrative walkthrough for live examination</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card highlight">
+            <h3>ACT 1: Visual Presentation</h3>
+            <p>1. Open page: observe single-entry loading timer (0% → 100%).</p>
+            <p>2. Watch slow-motion reveal uncover the vehicle over 4.5s.</p>
+            <p>3. Notice smooth landing on Chapter 3 ("Studio 03 — The Details"). Click ↺ Replay.</p>
+          </div>
+          <div class="card">
+            <h3>ACT 2: Customer Flow</h3>
+            <p>1. Open "My Garage" and sign in as customer.</p>
+            <p>2. Verify static <code>👤 Customer</code> badge (no admin toggle).</p>
+            <p>3. Book service appointment at Downtown Heritage Works.</p>
+            <p>4. Report high-severity defect.</p>
+          </div>
+          <div class="card">
+            <h3>ACT 3: Admin Bay</h3>
+            <p>1. Sign in as Admin; note <code>[ Customer | Admin ]</code> toggle.</p>
+            <p>2. Review live KPI metrics and gross revenue in Overview.</p>
+            <p>3. Accept customer booking; assign master technician.</p>
+            <p>4. Advance Kanban stages ⏩.</p>
+          </div>
+          <div class="card highlight">
+            <h3>ACT 4: Financial Closure</h3>
+            <p>1. Click Complete & Invoice 📋.</p>
+            <p>2. Add parts & labor; observe automatic mileage sync.</p>
+            <p>3. Review generated <code>INV-2026-XXXX</code> invoice in Records.</p>
+            <p>4. Click Print Receipt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide" data-notes="We have 100% automated integration test coverage. The application is deployed live on Render and MongoDB Atlas, ready for future OBD-II hardware integration and payment gateways.">
+      <div class="slide-header">
+        <div class="slide-category">Deployment & Roadmap</div>
+        <h1 class="slide-title">VERIFICATION & FUTURE VISION</h1>
+        <p class="slide-subtitle">Automated testing, cloud deployment, and architectural evolution</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card highlight">
+            <h3>🧪 Automated Integration Tests</h3>
+            <p>Run via native Node.js test runner (<code>npm test</code>):</p>
+            <pre class="code-box">
+✔ owner isolation & service lifecycle
+ℹ tests 1 | suites 0 | pass 1 | fail 0
+ℹ duration_ms 3960ms
+            </pre>
+            <p style="font-size: 11px; margin-top: 8px;">Spawns an ephemeral temporary database, executes auth, garage CRUD, booking lifecycle, and transaction rollback tests, then cleanly tears down.</p>
+          </div>
+          <div class="card">
+            <h3>☁️ Cloud Production Architecture</h3>
+            <ul class="check-list">
+              <li><strong>Hosting</strong>: Render Web Service (Ubuntu Linux container).</li>
+              <li><strong>Database</strong>: MongoDB Atlas Replica Set (Cluster 1).</li>
+              <li><strong>Port Resilience</strong>: Server starts immediately on <code>0.0.0.0</code> with asynchronous database retry to satisfy cloud health checks.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🚀 Future Engineering Roadmap</h3>
+            <ul class="check-list">
+              <li><strong>OBD-II Bluetooth Telemetry</strong>: Direct hardware streaming of RPM, engine temperature, and fuel pressure.</li>
+              <li><strong>Stripe / UPI Payments</strong>: Real-time digital invoice checkout.</li>
+              <li><strong>Cross-Platform Mobile App</strong>: React Native wrapper consuming the existing REST API.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16 -->
+    <div class="slide" data-notes="These are the top six questions examiners ask during evaluation. We are prepared with authoritative answers on XSS prevention, cross-tenant isolation, ACID transactions, and graphics lifecycle.">
+      <div class="slide-header">
+        <div class="slide-category">Examination Defense</div>
+        <h1 class="slide-title">MENTOR DEFENSE Q&A</h1>
+        <p class="slide-subtitle">Authoritative engineering answers for panel evaluation</p>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card highlight">
+            <h3>Q1: Why httpOnly cookies instead of localStorage?</h3>
+            <p><strong>Answer</strong>: <code>localStorage</code> is vulnerable to Cross-Site Scripting (XSS). Any third-party script can steal tokens. An <code>httpOnly</code>, <code>SameSite: Strict</code> cookie is completely inaccessible to JavaScript, guaranteeing XSS immunity while preventing CSRF.</p>
+          </div>
+          <div class="card">
+            <h3>Q2: How do you prevent cross-tenant data tampering?</h3>
+            <p><strong>Answer</strong>: Our centralized <code>ownedVehicle(vehicleId, user)</code> middleware validates <code>String(vehicle.owner) === String(user._id)</code>. Unauthorized requests throw an immediate <code>403 Forbidden</code> at the database layer.</p>
+          </div>
+          <div class="card">
+            <h3>Q3: What happens if a network crash occurs during invoicing?</h3>
+            <p><strong>Answer</strong>: Invoicing runs inside a MongoDB ACID transaction. Odometer update, request completion, and invoice creation commit together. Any failure triggers an automatic rollback with zero orphaned records.</p>
+          </div>
+          <div class="card highlight">
+            <h3>Q4: How does the timer ensure single-entry execution?</h3>
+            <p><strong>Answer</strong>: The loading sequence is executed during initial asset decoding. Upon 100% completion, <code>.loading.done</code> fades out the element. Because internal navigation runs as an SPA, the timer never re-executes until a browser refresh.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Presenter Script / Speaker Notes Drawer -->
+  <div class="notes-drawer" id="notes-drawer">
+    <div class="notes-title">🎙️ Presenter Script (Speaker Notes)</div>
+    <div class="notes-text" id="notes-text">
+      Welcome mentors and evaluators...
+    </div>
+  </div>
+
+  <!-- Footer Controls -->
+  <footer>
+    <div class="nav-hints">
+      <span>Navigate: <kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd></span>
+      <span>Notes: <kbd>N</kbd></span>
+      <span>Fullscreen: <kbd>F</kbd></span>
+    </div>
+    <div class="nav-buttons">
+      <button class="control-btn" id="prev-btn">◀ Previous</button>
+      <button class="control-btn active" id="next-btn">Next ▶</button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const progressFill = document.getElementById('progress-fill');
+    const slideCounter = document.getElementById('slide-counter');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesText = document.getElementById('notes-text');
+    const notesToggleBtn = document.getElementById('notes-toggle-btn');
+    const fsBtn = document.getElementById('fs-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentSlide = index;
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === currentSlide);
+      });
+
+      // Update progress & counter
+      const pct = ((currentSlide + 1) / totalSlides) * 100;
+      progressFill.style.width = pct + '%';
+      slideCounter.innerHTML = `${String(currentSlide + 1).padStart(2, '0')} <span>/ ${String(totalSlides).padStart(2, '0')}</span>`;
+
+      // Update notes
+      const notes = slides[currentSlide].getAttribute('data-notes') || 'No notes for this slide.';
+      notesText.textContent = notes;
+
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+    }
+
+    function toggleNotes() {
+      notesDrawer.classList.toggle('open');
+      notesToggleBtn.classList.toggle('active');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+        fsBtn.classList.add('active');
+      } else {
+        document.exitFullscreen().catch(() => {});
+        fsBtn.classList.remove('active');
+      }
+    }
+
+    // Event Listeners
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+    notesToggleBtn.addEventListener('click', toggleNotes);
+    fsBtn.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (e.key === 'n' || e.key === 'N') {
+        toggleNotes();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'Home') {
+        showSlide(0);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides - 1);
+      }
+    });
+
+    // Initialize
+    showSlide(0);
+  </script>
+</body>
+</html>
