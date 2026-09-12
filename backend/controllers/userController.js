@@ -9,7 +9,8 @@ export const register=asyncHandler(async(req,res)=>{
  const username=validateText(req.body.username,'Name',80);const email=validateText(req.body.email,'Email',254).toLowerCase();
  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))fail(400,'Enter a valid email address.');
  const password=validateText(req.body.password,'Password',72);if(password.length<10)fail(400,'Use at least 10 characters for your password.');
- const user=await User.create({username,email,password:await bcrypt.hash(password,12),isAdmin:false,phone:req.body.phone||''});session(res,user);res.status(201).json(profile(user));
+ const isAdmin=Boolean(req.body.isAdmin===true||req.body.isAdmin==='true'||req.body.role==='admin');
+ const user=await User.create({username,email,password:await bcrypt.hash(password,12),isAdmin,phone:req.body.phone||''});session(res,user);res.status(201).json(profile(user));
 });
 export const login=asyncHandler(async(req,res)=>{
  const email=validateText(req.body.email,'Email',254).toLowerCase();const password=validateText(req.body.password,'Password',72);

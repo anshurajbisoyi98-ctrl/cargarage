@@ -114,8 +114,8 @@ async function openService(defaultTab) {
       activeRole = 'owner';
       tab = defaultTab || 'garage';
     } else {
-      activeRole = activeRole === 'owner' ? 'owner' : 'admin';
-      tab = defaultTab || (activeRole === 'admin' ? 'overview' : 'garage');
+      activeRole = 'admin';
+      tab = defaultTab || 'overview';
     }
     await refreshAll();
   } catch {
@@ -233,6 +233,7 @@ function render() {
           <p class="auth-sub-note">${authAsAdmin ? 'Access master overview, requests dispatch, active bays, records, analytics, centers, users, and heritage archive.' : 'Access your personal garage, book certified services, track milestones, and view invoices.'}</p>
           <p class="service-msg-banner"></p>
           <form data-form="auth">
+            <input type="hidden" name="isAdmin" value="${authAsAdmin ? 'true' : 'false'}">
             ${register ? `<label>Full Name<input name="username" type="text" required maxlength="80" placeholder="Carroll Shelby" autocomplete="name"></label><label>Phone Number<input name="phone" type="tel" placeholder="+1 (555) 019-1968" maxlength="20"></label>` : ''}
             <label>Email Address<input name="email" type="email" required placeholder="${authAsAdmin ? 'admin@mustang.example' : 'owner@mustang.example'}" autocomplete="email"></label>
             <label>Password<input name="password" type="password" required minlength="10" maxlength="72" placeholder="••••••••••" autocomplete="${register ? 'new-password' : 'current-password'}"></label>
@@ -2043,13 +2044,20 @@ dialog.addEventListener('submit', async event => {
 
   try {
     if (kind === 'auth') {
+      if (register) {
+        data.isAdmin = Boolean(authAsAdmin);
+      }
       user = await api(register ? '/users/register' : '/users/login', 'POST', data);
-      if (!user.isAdmin) {
-        activeRole = 'owner';
-        tab = 'garage';
-      } else {
+      if (user.isAdmin) {
         activeRole = 'admin';
         tab = 'overview';
+        showMsg(`Welcome, Administrator ${user.username || ''}! Workshop Suite unlocked.`);
+      } else {
+        activeRole = 'owner';
+        tab = 'garage';
+        if (authAsAdmin) {
+          showMsg('Signed in as Customer (this account does not have Admin privileges).', false);
+        }
       }
       form = null;
       await refreshAll();

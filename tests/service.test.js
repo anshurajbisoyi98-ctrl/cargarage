@@ -21,7 +21,8 @@ test('owner isolation and full service lifecycle',{timeout:20000},async()=>{
  if(response.status>=500)console.error('Server error:',response.status,data);
  return {status:response.status,data,cookie:response.headers.get('set-cookie')?.split(';')[0]};
  }
- const owner=await request('/users/register','POST',{username:'Test owner',email:'owner@test.example',password:'test-only-password',isAdmin:true});assert.equal(owner.status,201);assert.equal(owner.data.isAdmin,false);
+ const owner=await request('/users/register','POST',{username:'Test owner',email:'owner@test.example',password:'test-only-password'});assert.equal(owner.status,201);assert.equal(owner.data.isAdmin,false);
+ const adminReg=await request('/users/register','POST',{username:'Admin Reg',email:'adminreg@test.example',password:'test-only-password',isAdmin:true});assert.equal(adminReg.status,201);assert.equal(adminReg.data.isAdmin,true);
  const other=await request('/users/register','POST',{username:'Other',email:'other@test.example',password:'test-only-password'});
  await User.create({username:'Staff',email:'staff@test.example',password:await bcrypt.hash('test-only-password',4),isAdmin:true});
  const staff=await request('/users/login','POST',{email:'staff@test.example',password:'test-only-password'});
